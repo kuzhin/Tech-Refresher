@@ -8,7 +8,7 @@ from typing import Dict
 
 # Хранилище в памяти (в реальности — заменить на БД)
 # {api_key: user_id}
-API_KEYS: Dict[str, str] = {}
+API_KEYS: Dict[str, str] = {'user': '123'}
 
 # Для генерации уникальных user_id
 user_counter = 0
@@ -39,7 +39,7 @@ def generate_key():
 
 # Защищённый эндпоинт с rate limiting: 5 запросов в минуту на ключ
 @app.get("/predict")
-@limiter.limit("5/minute")
+@limiter.limit("50/minute")
 def predict(request: Request, api_key: str = Depends(get_api_key)):
     # Здесь может быть ваш ML-код
     return {
