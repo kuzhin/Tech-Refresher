@@ -9,7 +9,6 @@ from typing import Dict
 # {api_key: user_id}
 API_KEYS: Dict[str, str] = {}
 
-
 # Для генерации уникальных user_id
 user_counter = 0
 
