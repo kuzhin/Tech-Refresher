@@ -1,61 +1,32 @@
-from fastapi import FastAPI, Depends, HTTPException, Request
-from fastapi.security import APIKeyHeader
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.errors import RateLimitExceeded
-import secrets
-from typing import Dict
+from fastapi import FastAPI
+from pydantic import BaseModel
 
-# Хранилище в памяти (в реальности — заменить на БД)
-# {api_key: user_id}
-API_KEYS: Dict[str, str] = {}
-
-# Для генерации уникальных user_id
-user_counter = 0
-
-# Rate limiter: лимит по API-ключу
-def get_api_key_from_request(request: Request) -> str:
-    key = request.headers.get("X-API-Key")
-    if not key or key not in API_KEYS:
-        # Возвращаем специальный ключ, чтобы slowapi не ломался
-        # raise HTTPException(status_code=403, detail="Invalid or missing API key")
-        return "invalid"
-    return key
-
-limiter = Limiter(key_func=get_api_key_from_request)
+# Создаем экземпляр приложения
 app = FastAPI()
-app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+# Модель данных с валидацией
+class Item(BaseModel):
+    name: str
+    price: float
+    is_offer: bool = False
 
-def validate_api_key(request: Request) -> str:
-    key = request.headers.get("X-API-Key")
-    if not key or key not in API_KEYS:
-        raise HTTPException(status_code=403, detail="Invalid or missing API key")
-    return key
+# Простой GET-эндпоинт
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
 
-# Эндпоинт для генерации нового API-ключа
-@app.post("/generate-key")
-def generate_key():
-    global user_counter
-    user_counter += 1
-    user_id = f"user_{user_counter}"
-    new_key = secrets.token_urlsafe(32)  # 256-bit secure token
-    API_KEYS[new_key] = user_id
-    return {"api_key": new_key, "user_id": user_id}
+# GET с параметром пути
+@app.get("/items/{item_id}")
+def read_item(item_id: int, q: str = None):
+    return {"item_id": item_id, "q": q}
 
-# Защищённый эндпоинт с rate limiting: 50 запросов в минуту на ключ
-@app.get("/predict")
-@limiter.limit("50/minute")
-def predict(request: Request, api_key: str = Depends(validate_api_key)):
-    # Здесь может быть ваш ML-код
-    return {
-        "message": "Prediction successful!",
-        "user_id": API_KEYS[api_key],
-        "note": "This is a demo — no real ML here yet."
-    }
+# POST-эндпоинт с телом запроса
+@app.post("/items/")
+def create_item(item: Item):
+    return {"item_name": item.name, "price": item.price}
 
-# Эндпоинт для отладки: показывает, сколько ключей выдано
-@app.get("/stats")
-def stats():
-    return {"total_keys_issued": len(API_KEYS)}
+# Асинхронный эндпоинт
+@app.get("/async-example/")
+async def async_endpoint():
+    # Асинхронные операции (запросы к БД, API и т.д.)
+    return {"message": "Это асинхронный эндпоинт"}
