@@ -38,6 +38,6 @@ if __name__ == "__main__":
 #     app = FastAPI()
 #     app.include_router(router)
 
-# Запуск через терминал:
+# Запуск через терминал (__name__ убрать):
 # PS E:\Git> cd E:/Git/Learning/FastAPI/
 # PS E:\Git\Learning\FastAPI> uvicorn main:app --reload
