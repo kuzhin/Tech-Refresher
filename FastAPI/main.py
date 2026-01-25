@@ -33,7 +33,11 @@ async def async_endpoint():
     return {"message": "Это асинхронный эндпоинт"}
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("E/Git/Learning/FastAPI/main:app", host="0.0.0.0", port=8000, reload=True)
 # def __main__():
 #     app = FastAPI()
 #     app.include_router(router)
+
+# Запуск через терминал:
+# PS E:\Git> cd E:/Git/Learning/FastAPI/
+# PS E:\Git\Learning\FastAPI> uvicorn main:app --reload
