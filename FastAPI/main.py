@@ -30,3 +30,9 @@ def create_item(item: Item):
 async def async_endpoint():
     # Асинхронные операции (запросы к БД, API и т.д.)
     return {"message": "Это асинхронный эндпоинт"}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+# def __main__():
+#     app = FastAPI()
+#     app.include_router(router)
