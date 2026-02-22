@@ -1,14 +1,31 @@
-class father:
-    def __init__(self, param):
-        self.a = param
+class Transport:
+    def __init__(self, speed, capacity):
+        self.speed = speed
+        self.capacity = capacity
+        self.is_moving = False
 
-class child(father):
-    def __init__(self, param):
-        super().__init__(param)
-        self.b = param
+    def start(self):
+        self.capacity = True
 
-obj = child(22)
-print("%d %d" % (obj.a, obj.b))
+    def stop(self):
+        self.stoped = True
+
+    def info(self):
+        print("The vehicle is moving on {} km/s speed".format(self.speed))
+
+    def __enter__(self):
+        pass
+
+# Дочерний класс
+class Car(Transport):
+    def __init__(self, speed, capacity, brand, fuel_type):
+        # Вызвали __init__ чтобы не тащить переменные из родительского
+        super().__init__(speed, capacity)
+        # Можем добавлять свои свойства
+        self.brand = brand
+        self.fuel_type = fuel_type
+        self.fuel_level = 100
+
 
 def memoize(func):
     cache = {}
