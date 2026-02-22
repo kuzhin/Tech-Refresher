@@ -24,6 +24,7 @@ class Car(Transport):
         # Можем добавлять свои свойства
         self.brand = brand
         self.fuel_type = fuel_type
+        self.amount = 50
         self.fuel_level = 100
 
     def refuel(self, amount):
@@ -31,15 +32,15 @@ class Car(Transport):
         print('Refuel a vehicle on {0} and now fuel level is {1}'.format(self.amount, self.fuel_level))
 
 
-def memoize(func):
-    cache = {}
-
-    def wrapper(*args):
-        if args not in cache:
-            cache[args] = func(*args)
-        return cache[args]
-
-    return wrapper
+# def memoize(func):
+#     cache = {}
+#
+#     def wrapper(*args):
+#         if args not in cache:
+#             cache[args] = func(*args)
+#         return cache[args]
+#
+#     return wrapper
 
 # @memoize
 # def fibonacci(n):
