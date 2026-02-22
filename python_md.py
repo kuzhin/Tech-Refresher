@@ -24,7 +24,7 @@ class Car(Transport):
         # Можем добавлять свои свойства
         self.brand = brand
         self.fuel_type = fuel_type
-        self.amount = 50
+        self.amount = 50.0
         self.fuel_level = 100
 
     def refuel(self, amount):
