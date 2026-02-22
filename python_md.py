@@ -20,11 +20,11 @@ def memoize(func):
 
     return wrapper
 
-@memoize
-def fibonacci(n):
-    if n < 2:
-        return n
-    return fibonacci(n-1) + fibonacci(n-2)
-
-print(fibonacci(4))
-pass
+# @memoize
+# def fibonacci(n):
+#     if n < 2:
+#         return n
+#     return fibonacci(n-1) + fibonacci(n-2)
+#
+# print(fibonacci(4))
+# pass
