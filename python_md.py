@@ -26,6 +26,10 @@ class Car(Transport):
         self.fuel_type = fuel_type
         self.fuel_level = 100
 
+    def refuel(self, amount):
+        self.fuel_level = min(100, self.fuel_level + amount)
+        print('Refuel a vehicle on {0} and now fuel level is {1}'.format(self.amount, self.fuel_level))
+
 
 def memoize(func):
     cache = {}
